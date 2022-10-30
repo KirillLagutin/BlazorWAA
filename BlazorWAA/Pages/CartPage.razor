@@ -1,0 +1,23 @@
+﻿@page "/Cart"
+
+<PageTitle>Корзина</PageTitle>
+
+<h3>Корзина</h3>
+
+<button class="btn btn-outline-primary" 
+        @onclick="Cart.ClearCart">Очистить корзину</button>
+
+@foreach (var product in Cart.Products!)
+{
+    <div>
+        <b>@product!.Name (цена: @product.Price)</b>
+        <button class="btn btn-outline-primary"
+                @onclick="@(() => Cart.DeleteFromCart(product))">
+            Удалить из корзины
+        </button>
+    </div>
+}
+
+@code {
+
+}

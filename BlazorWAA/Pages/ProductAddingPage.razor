@@ -1,0 +1,38 @@
+﻿@page "/ProductAdding"
+
+@inject ICatalog Catalog
+@inject IJSRuntime JS
+
+<PageTitle>Добавить товар</PageTitle>
+
+<h3>Добавление товара в каталог</h3>
+
+<EditForm Model="_model" OnValidSubmit="SubmitProduct">
+    <DataAnnotationsValidator />
+    
+    Название: <InputText class="form-control" @bind-Value="_model.Name"></InputText>
+    Цена: <InputNumber class="form-control" @bind-Value="_model.Price"></InputNumber>
+    <button class="btn btn-primary">Добавить</button>
+    @*<input class="btn btn-primary" type="submit" value="Добавить"/>*@
+
+    <ValidationSummary />
+</EditForm>
+
+@code {
+
+    private readonly ProductAddingModel _model = new();
+
+    private void SubmitProduct()
+    {
+        var id = Catalog.GetProducts().Max(p => p.Id);
+        var product = new Product(id + 1, _model.Name, _model.Price);
+        Catalog.AddProduct(product);
+        JS.InvokeVoidAsync("show_message", args: "Товар добавлен!");
+    }
+    
+    private class ProductAddingModel
+    {
+        public string Name { get; set; } = "";
+        public decimal Price { get; set; }
+    }
+}

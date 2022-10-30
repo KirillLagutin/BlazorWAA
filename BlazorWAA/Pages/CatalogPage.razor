@@ -1,0 +1,23 @@
+﻿@page "/Сatalog"
+
+@inject ICatalog Catalog
+
+<PageTitle>Товары</PageTitle>
+
+<h3>Список товаров</h3>
+
+@foreach (var product in Catalog.GetProducts())
+{
+    <div>
+        <b>@product.Name (цена: @product.Price)</b>
+        <button class="btn btn-outline-primary"
+                @onclick="@(() => Cart.AddToCart(product))">
+            Добавить в корзину
+        </button>
+    </div>
+}
+
+@code
+{
+    
+}
