@@ -1,6 +1,7 @@
 ﻿@page "/Сatalog"
 
 @inject ICatalog Catalog
+@inject IToastService ToastService;
 
 <PageTitle>Товары</PageTitle>
 
@@ -11,13 +12,18 @@
     <div>
         <b>@product.Name (цена: @product.Price)</b>
         <button class="btn btn-outline-primary"
-                @onclick="@(() => Cart.AddToCart(product))">
-            Добавить в корзину
+                @onclick="@(() => AddProductToCart(product))">
+            Купить
         </button>
     </div>
 }
 
 @code
 {
-    
+    private void AddProductToCart(Product product)
+    {
+        Cart.AddToCart(product);
+        ToastService.ShowSuccess(
+            $"Добавляем в корзину товар {product.Name}");
+    }
 }
